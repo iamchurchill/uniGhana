@@ -56,7 +56,7 @@ module.exports.login = (request, response, next) => {
   })
     .then((user) => {
       if (!user) {
-        return response.status(409).json(errorResponse("User not found"));
+        return response.status(200).json(errorResponse("User not found"));
       }
       return bcrypt
         .compare(password, user.password)
