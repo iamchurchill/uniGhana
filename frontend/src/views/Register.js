@@ -8,7 +8,8 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
-    const [message, setMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const Register = (e) => {
         e.preventDefault();
@@ -20,7 +21,7 @@ const Register = () => {
 
         const config = {
             method: 'post',
-            url: 'http://127.0.0.1:8888/api/v1/register',
+            url: 'http://localhost:8888/api/v1/register',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -30,10 +31,13 @@ const Register = () => {
 
         axios(config)
             .then(response => {
-                console.log(JSON.stringify(response.data));
+                if (response.data.status)
+                {
+                    setSuccessMessage(response.data.message);
+                }
             })
             .catch(error => {
-                setMessage(error);
+                setErrorMessage(error);
             });
     }
 
@@ -58,7 +62,7 @@ const Register = () => {
                             <h3 className="text-center mb-0">Welcome</h3>
                             <p className="text-center">Register by entering the information below</p>
                             <form onSubmit={Register} className="login-form">
-                                <Alert type={"alert-success"} message={message}/>
+                                <Alert type={"alert-success"} message={successMessage}/>
                                 <div className="form-group">
                                     <div className="icon d-flex align-items-center justify-content-center"><span
                                         className="fa fa-user"></span></div>

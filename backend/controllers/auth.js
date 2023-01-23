@@ -16,7 +16,7 @@ module.exports.register = (request, response, next) => {
     .then((user) => {
       if (user) {
         return response
-          .status(409)
+          .status(200)
           .json(errorResponse("User already exist. Please Login"));
       }
       return bcrypt
@@ -63,7 +63,7 @@ module.exports.login = (request, response, next) => {
         .then((matches) => {
           if (!matches) {
             return response
-              .status(400)
+              .status(200)
               .json(errorResponse("Invalid Credentials"));
           }
           const accessToken = getToken(user, false);

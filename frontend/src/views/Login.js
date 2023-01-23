@@ -7,10 +7,12 @@ import bgImg from '../bg.jpg';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isShow, setIsShow] = useState(false);
     const [message, setMessage] = useState('');
 
     const Auth = (e) => {
         e.preventDefault();
+        setIsShow(false);
 
         const data = JSON.stringify({
             "email": email,
@@ -19,7 +21,7 @@ const Login = () => {
 
         const config = {
             method: 'post',
-            url: 'https://127.0.0.1:8888/api/v1/login',
+            url: 'http://localhost:8888/api/v1/login',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -29,9 +31,14 @@ const Login = () => {
 
         axios(config)
             .then(response => {
-                console.log(JSON.stringify(response.data));
+                if (response.status === 200)
+                {
+                    setIsShow(true);
+                    setMessage(response.data.message);
+                }
             })
             .catch(error => {
+                setIsShow(true);
                 setMessage(error);
             });
     }
@@ -57,7 +64,7 @@ const Login = () => {
                             <h3 className="text-center mb-0">Welcome</h3>
                             <p className="text-center">Sign in by entering the information below</p>
                             <form onSubmit={Auth} className="login-form">
-                                <Alert type={"alert-danger"} message={message}/>
+                                { (isShow) ? <Alert type={"alert-success"} message={message}/> : '' }
                                 <div className="form-group">
                                     <div className="icon d-flex align-items-center justify-content-center"><span
                                         className="fa fa-user"></span></div>
