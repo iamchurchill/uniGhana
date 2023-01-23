@@ -27,8 +27,9 @@ module.exports.register = (request, response, next) => {
             password: encryptedPassword,
           })
             .then((user) => {
-              user.accessToken = getToken(user, false);
-              return response.status(201).json(successResponse("Login successful", user));
+              return response
+                .status(201)
+                .json(successResponse("Registered successfully", user));
             })
             .catch((error) => {
               return next(error);
@@ -65,11 +66,19 @@ module.exports.login = (request, response, next) => {
               .status(400)
               .json(errorResponse("Invalid Credentials"));
           }
-          user.accessToken = getToken(user, false);
-          user.refreshToken = getToken(user);
+          const accessToken = getToken(user, false);
+          const refreshToken = getToken(user);
 
-          console.log(user.accessToken);
-          return response.status(200).json(successResponse("", user));
+          return response
+            .status(200)
+            .json(
+              successResponse(
+                "Logged in successfully",
+                user,
+                accessToken,
+                refreshToken
+              )
+            );
         })
         .catch((error) => {
           return next(error);
