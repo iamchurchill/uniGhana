@@ -8,8 +8,8 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmationPassword, setConfirmationPassword] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+    const [isShow, setIsShow] = useState(false);
+    const [message, setMessage] = useState({});
 
     const Register = (e) => {
         e.preventDefault();
@@ -31,13 +31,19 @@ const Register = () => {
 
         axios(config)
             .then(response => {
-                if (response.data.status)
+                if (response.status === 200)
                 {
-                    setSuccessMessage(response.data.message);
+                    setIsShow(true);
+                    if (response.data.status) {
+                        setMessage({type: 'alert-success', message: response.data.message});
+                    } else {
+                        setMessage({type: 'alert-danger', message: response.data.message});
+                    }
                 }
             })
             .catch(error => {
-                setErrorMessage(error);
+                setIsShow(true);
+                setMessage({type: 'alert-danger', message: error});
             });
     }
 
@@ -62,7 +68,7 @@ const Register = () => {
                             <h3 className="text-center mb-0">Welcome</h3>
                             <p className="text-center">Register by entering the information below</p>
                             <form onSubmit={Register} className="login-form">
-                                <Alert type={"alert-success"} message={successMessage}/>
+                                { (isShow) ? <Alert type={message.type} message={message.message}/> : '' }
                                 <div className="form-group">
                                     <div className="icon d-flex align-items-center justify-content-center"><span
                                         className="fa fa-user"></span></div>

@@ -8,7 +8,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isShow, setIsShow] = useState(false);
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState({});
 
     const Auth = (e) => {
         e.preventDefault();
@@ -34,12 +34,16 @@ const Login = () => {
                 if (response.status === 200)
                 {
                     setIsShow(true);
-                    setMessage(response.data.message);
+                    if (response.data.status) {
+                        setMessage({type: 'alert-success', message: response.data.message});
+                    } else {
+                        setMessage({type: 'alert-danger', message: response.data.message});
+                    }
                 }
             })
             .catch(error => {
                 setIsShow(true);
-                setMessage(error);
+                setMessage({type: 'alert-danger', message: error});
             });
     }
 
@@ -64,7 +68,7 @@ const Login = () => {
                             <h3 className="text-center mb-0">Welcome</h3>
                             <p className="text-center">Sign in by entering the information below</p>
                             <form onSubmit={Auth} className="login-form">
-                                { (isShow) ? <Alert type={"alert-success"} message={message}/> : '' }
+                                { (isShow) ? <Alert type={message.type} message={message.message}/> : '' }
                                 <div className="form-group">
                                     <div className="icon d-flex align-items-center justify-content-center"><span
                                         className="fa fa-user"></span></div>
