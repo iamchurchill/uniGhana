@@ -1,0 +1,79 @@
+{
+  "name": "unighana",
+  "version": "1.0.0",
+  "description": "UniGhana application test.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "start:dev": "nodemon app.js",
+    "db:init": "npx sequelize-cli init",
+    "model:generate": "npx sequelize-cli model:generate --name User --force --underscored --attributes email:string,password:string,status:enum",
+    "seed:generate": "npx sequelize-cli seed:generate --name user",
+    "db:up": "echo creating && npm run db:create && echo created && npm run db:migrate && echo migrated && echo seeding && npm run db:seed:all && echo seeded",
+    "db:reset": "echo droping && npm run db:drop && echo dropped && npm run db:up",
+    "db:create": "npx sequelize-cli db:create",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "db:seed:all": "npx sequelize-cli db:seed:all",
+    "db:seed:undo": "npx sequelize-cli db:seed:undo --seed name-of-seed-as-in-data",
+    "db:seed:undo:all": "npx sequelize-cli db:seed:undo:all",
+    "db:rollback": "npx sequelize-cli db:migrate:undo",
+    "db:rollback:all": "npx sequelize-cli db:migrate:undo:all",
+    "db:drop": "[[ $NODE_ENV == production ]] && exit 1 || npx sequelize-cli db:drop",
+    "format:check:all": "prettier --check .",
+    "format:all": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamchurchill/uni-ghana.git"
+  },
+  "keywords": [
+    "Login",
+    "Register"
+  ],
+  "author": "FRIEDRICH MEREDITH SAM",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.2.3",
+    "bcrypt": "^5.1.0",
+    "cls-hooked": "^4.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-actuator": "^1.8.4",
+    "express-fileupload": "^1.4.0",
+    "express-rate-limit": "^6.7.0",
+    "express-validator": "^6.14.2",
+    "helmet": "^6.0.1",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "module-alias": "^2.2.2",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.28.0",
+    "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "babel-register": "^6.26.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.3",
+    "sequelize-cli": "^6.5.2"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@config": "./config",
+    "@controllers": "./controllers",
+    "@helpers": "./helpers",
+    "@middlewares": "./middlewares",
+    "@models": "./models",
+    "@routes": "./routes",
+    "@requests": "./requests"
+  },
+  "bugs": {
+    "url": "https://github.com/iamchurchill/uni-ghana/issues"
+  },
+  "homepage": "https://github.com/iamchurchill/uni-ghana#readme"
+}
