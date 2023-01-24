@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import {Link} from "react-router-dom";
+import Alert from "../components/Alert";
 import axios from 'axios';
 import bgImg from "../bg.jpg";
-import Alert from "../components/Alert";
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -31,7 +31,8 @@ const Register = () => {
 
         axios(config)
             .then(response => {
-                if (response.status === 200)
+                console.log(response);
+                if (response.status === 201)
                 {
                     setIsShow(true);
                     if (response.data.status) {
@@ -42,6 +43,8 @@ const Register = () => {
                 }
             })
             .catch(error => {
+                console.log('error hit here');
+                console.log(error);
                 setIsShow(true);
                 setMessage({type: 'alert-danger', message: error});
             });
@@ -83,11 +86,6 @@ const Register = () => {
                                     <div className="icon d-flex align-items-center justify-content-center"><span
                                         className="fa fa-lock"></span></div>
                                     <input type="password" className="form-control" placeholder="********" value={confirmationPassword} onChange={(e) => setConfirmationPassword(e.target.value)} required />
-                                </div>
-                                <div className="form-group d-md-flex">
-                                    <div className="w-100 text-md-right">
-                                        <Link to="#">Forgot Password</Link>
-                                    </div>
                                 </div>
                                 <div className="form-group">
                                     <button type="submit"
