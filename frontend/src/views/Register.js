@@ -42,10 +42,9 @@ const Register = () => {
                 }
             })
             .catch(error => {
-                console.log('error hit here');
-                console.log(error);
+                console.log(error.message);
                 setIsShow(true);
-                setMessage({type: 'alert-danger', message: error});
+                setMessage({type: 'alert-danger', message: error.message});
             });
     }
 
@@ -70,7 +69,7 @@ const Register = () => {
                             <h3 className="text-center mb-0">Welcome</h3>
                             <p className="text-center">Register by entering the information below</p>
                             <form onSubmit={Register} className="login-form">
-                                { (isShow) ? <Alert type={message.type} message={message.message}/> : '' }
+                                { (isShow) ? <Alert type={message.type} message={message.message}/> : ''  }
                                 <div className="form-group">
                                     <div className="icon d-flex align-items-center justify-content-center"><span
                                         className="fa fa-user"></span></div>
