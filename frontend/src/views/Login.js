@@ -35,7 +35,8 @@ const Login = () => {
                 setMessage({type: 'alert-success', message: response.data.message});
             })
             .catch(error => {
-                if (error.response.data.errors.length > 0){
+                setIsShow(true);
+                if (typeof error.response.data.errors !== 'undefined' && error.response.data.errors.length > 0){
                     const errors = error.response.data.errors.map((element) => {
                         return `<p>${element.msg}</p>`;
                     });

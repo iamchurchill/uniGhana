@@ -35,9 +35,8 @@ const Register = () => {
                 setMessage({type: 'alert-success', message: response.data.message});
             })
             .catch(error => {
-                console.log(error.response.data);
                 setIsShow(true);
-                if (error.response.data.errors.length > 0){
+                if (typeof error.response.data.errors !== 'undefined' && error.response.data.errors.length > 0){
                     const errors = error.response.data.errors.map((element) => {
                         return `<p>${element.msg}</p>`;
                     });
