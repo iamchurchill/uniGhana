@@ -15,9 +15,7 @@ module.exports.register = (request, response, next) => {
   })
     .then((user) => {
       if (user) {
-        return response
-          .status(200)
-          .json(errorResponse("User already exist. Please Login"));
+        return response.status(400).json(errorResponse("User already exist"));
       }
       return bcrypt
         .hash(password, 10)
@@ -56,14 +54,14 @@ module.exports.login = (request, response, next) => {
   })
     .then((user) => {
       if (!user) {
-        return response.status(200).json(errorResponse("User not found"));
+        return response.status(400).json(errorResponse("User not found"));
       }
       return bcrypt
         .compare(password, user.password)
         .then((matches) => {
           if (!matches) {
             return response
-              .status(200)
+              .status(400)
               .json(errorResponse("Invalid Credentials"));
           }
           const accessToken = getToken(user, false);
