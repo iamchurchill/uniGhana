@@ -31,7 +31,6 @@ const Register = () => {
 
         axios(config)
             .then(response => {
-                console.log(response);
                 if (response.status === 201)
                 {
                     setIsShow(true);
