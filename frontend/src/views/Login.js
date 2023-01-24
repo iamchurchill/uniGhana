@@ -43,7 +43,7 @@ const Login = () => {
             })
             .catch(error => {
                 setIsShow(true);
-                setMessage({type: 'alert-danger', message: error});
+                setMessage({type: 'alert-danger', message: error.message});
             });
     }
 

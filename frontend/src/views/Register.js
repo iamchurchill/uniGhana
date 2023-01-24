@@ -42,7 +42,6 @@ const Register = () => {
                 }
             })
             .catch(error => {
-                console.log(error.message);
                 setIsShow(true);
                 setMessage({type: 'alert-danger', message: error.message});
             });
