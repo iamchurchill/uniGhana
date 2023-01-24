@@ -31,19 +31,18 @@ const Login = () => {
 
         axios(config)
             .then(response => {
-                if (response.status === 200)
-                {
-                    setIsShow(true);
-                    if (response.data.status) {
-                        setMessage({type: 'alert-success', message: response.data.message});
-                    } else {
-                        setMessage({type: 'alert-danger', message: response.data.message});
-                    }
-                }
+                setIsShow(true);
+                setMessage({type: 'alert-success', message: response.data.message});
             })
             .catch(error => {
-                setIsShow(true);
-                setMessage({type: 'alert-danger', message: error.message});
+                if (error.response.data.errors.length > 0){
+                    const errors = error.response.data.errors.map((element) => {
+                        return `<p>${element.msg}</p>`;
+                    });
+                    setMessage({type: 'alert-danger', message: errors});
+                } else {
+                    setMessage({type: 'alert-danger', message: error.response.data.message});
+                }
             });
     }
 
