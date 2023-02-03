@@ -27,26 +27,35 @@ module.exports.register = [
           return Promise.reject(error.toString());
         });
     }),
-  body("password")
-    .exists({ checkNull: true, checkFalsy: true })
-    .withMessage("password is required")
-    .isStrongPassword({
-      minLength: 8,
-      minUppercase: 1,
-      minLowercase: 1,
-      minNumbers: 1,
-      minSymbols: 1,
-    })
-    .withMessage(
-      "password should be greater than 8 and contain at least one uppercase letter, one lowercase letter, one number, and one special character"
-    ),
-  body(
-    "password_confirm",
-    "Your confirmation password must match the password field"
-  )
-    .exists({ checkNull: true, checkFalsy: true })
-    .withMessage("confirmation password is required")
-    .custom((value, { req }) => value === req.body.password),
+    body("password")
+        .exists({ checkNull: true, checkFalsy: true })
+        .notEmpty()
+        .withMessage("Password is required")
+        .trim()
+        .escape()
+        .isString()
+        .isStrongPassword({
+            minLength: 8,
+            minUppercase: 1,
+            minLowercase: 1,
+            minNumbers: 1,
+            minSymbols: 1,
+        })
+        .withMessage(
+            "Password should be greater than 8 and contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+        ),
+    body(
+        "password_confirm",
+        "Your confirmation password must match the password field"
+    )
+        .exists({ checkNull: true, checkFalsy: true })
+        .notEmpty()
+        .withMessage("Confirmation password is required")
+        .trim()
+        .escape()
+        .isString()
+        .custom((value, { req }) => value === req.body.password)
+        .withMessage("Confirmation password should match password"),
 ];
 
 module.exports.login = [
